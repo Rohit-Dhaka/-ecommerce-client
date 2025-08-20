@@ -8,7 +8,12 @@ module.exports = {
       container:{
         center:true,
         padding:'12px'
-      }
+      },
+      fontFamily:{
+          'outfit':["Outfit, sans-serif"],                 
+          'prata':["Prata, serif"] 
+                           
+      },
     },
   },
   plugins: [],
