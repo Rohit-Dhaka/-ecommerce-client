@@ -1,11 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Cart, Logo, Profile, Search } from "../../icon";
 import { UseMyContext } from "../../context/Mycontext";
 
 const Navbar = () => {
-  const { isLogin, logout } = UseMyContext();
+  const { isLogin, logout  ,cartCount  ,cartLength} = UseMyContext();
   const [show, setShow] = useState(false);
+  const [ open , setOpen] = useState(false)
+  const  downclickRef = useRef(null);
+
+
+  useEffect(() =>{
+    cartLength();
+      const handleClickOutside = (e) =>{
+    if(downclickRef.current && !downclickRef.current.contains(e.target)){
+        setOpen(false)
+    }
+   
+  }
+   document.addEventListener("mousedown" , handleClickOutside)
+    return(() =>{
+      document.removeEventListener("mousedown" , handleClickOutside)
+    })
+  },[])
+
   return (
     <nav>
       <div className="container">
@@ -45,10 +63,11 @@ const Navbar = () => {
               <Search />
             </Link>
 
-            <div className="relative group">
+            <div className="relative group  cursor-pointer " ref={downclickRef} onClick={() => setOpen(!open)}>
               <Profile />
 
-              <div className="absolute hidden group-hover:block top-full right-0 p-4 bg-gray-200  flex-col rounded w-[200px] gap-2 shadow-lg">
+             {open && (
+               <div className="absolute   flex flex-col top-full right-0 p-4 bg-gray-200  flex-col rounded w-[200px] gap-2 shadow-lg">
                 {isLogin ? (
                   <>
                     <Link
@@ -79,13 +98,14 @@ const Navbar = () => {
                   </Link>
                 )}
               </div>
+             )}
             </div>
 
-            <Link to="">
+            <Link to="/cart">
               <div className=" relative">
                 <Cart />
                 <div className=" absolute bottom-[-6px] right-[-8px]  font-outfit text-[13px] leading-[100%] text-white bg-black w-[18px] h-[18px] rounded-full flex items-center justify-center ">
-                  2
+                  {cartCount}
                 </div>
               </div>
             </Link>
