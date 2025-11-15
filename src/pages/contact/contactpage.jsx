@@ -8,7 +8,7 @@ const contactpage = () => {
     <div>
         <Contact/>
         <Subscribe/>
-        <Footer/>
+        
     </div>
   )
 }

@@ -12,7 +12,8 @@ const Productdetails = () => {
   const [selectedSize, setSelectedSize] = useState("")
   const [mainImage, setMainImage] = useState("")
   const [cartLoading, setCartLoading] = useState(false)
-    
+  const [message , setMessage] = useState("")
+  const [bar , setBar] = useState(false)
 
    const [zoom, setZoom] = useState({ x: 0, y: 0, active: false });
 
@@ -28,7 +29,7 @@ const Productdetails = () => {
   };
 
 
-  // ✅ Fetch product details
+  
   useEffect(() => {
     if (id) {
       setLoading(true)
@@ -48,10 +49,33 @@ const Productdetails = () => {
     }
   }, [id])
 
-  // ✅ Handle Add to Cart
+  
   const handleAddToCart = async () => {
+
+      const token = localStorage.getItem("token");
+if (!token) {
+  setMessage("Please login first to add products to cart");
+  setBar(true);
+
+  
+  setTimeout(() => {
+    setMessage("");
+    setBar(false);
+  }, 2000);
+
+  return;
+}
+
+
+ 
     if (!selectedSize) {
-      alert("Please select a size before adding to cart")
+        setMessage("Please select a size before adding to cart");
+  setBar(true); 
+
+    setTimeout(() => {
+    setMessage("");
+    setBar(false);
+  }, 2000)     
       return
     }
 
@@ -68,7 +92,15 @@ const Productdetails = () => {
       if (res?.message) {
         alert(`✅ ${res.message}`)
       } else {
-        alert("✅ Product added to cart")
+        
+            setMessage("Product added to cart");
+  setBar(true); 
+
+    setTimeout(() => {
+    setMessage("");
+    setBar(false);
+  }, 2000)     
+      return
       }
     } catch (err) {
       console.error("Add to cart error:", err.response?.data || err.message)
@@ -79,20 +111,49 @@ const Productdetails = () => {
   }
 
   return (
-    <section>
+    <section className=" relative">
+      {message && (
+
+      
+      <div className=" absolute top-10 left-[50%] translate-x-[-50%] z-10 bg-black  flex flex-col gap-1 rounded-lg px-4 py-2">
+        <h2 className="text-white">{message}</h2>
+        {bar && (
+
+          <span className=" w-full inline-block h-1 bg-white rounded-full  animate-progress ease-linear "></span>
+        )}
+      </div>
+      )}
       <div className="container">
-        <div className="pt-[51px]">
-          <div className="flex flex-wrap flex-row mx-[-12px]">
+        <div className="py-[51px]">
+          <div className="flex flex-wrap flex-row mx-[-12px] items-center">
             <div className="sm:w-6/12 w-full px-3">
-      <div
-        className="w-full h-[400px] border rounded-xl overflow-hidden relative cursor-zoom-in"
+     <div className="flex sm:flex-row flex-col max-sm:flex-col-reverse items-center gap-2">
+       <div className="">
+       {product?.imagesUrl?.length > 1 && (
+        <div className="flex sm:flex-col flex-row max-sm:overflow-x-scroll gap-2 ">
+          {product.imagesUrl.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt={`thumb-${index}`}
+              className={`w-24 h-24  object-cover rounded-md cursor-pointer border ${
+                mainImage === img ? "border-black" : "border-gray-300"
+              }`}
+              onClick={() => setMainImage(img)}
+            />
+          ))}
+        </div>
+      )}
+     </div>
+       <div
+        className="w-full sm:h-[600px] border rounded-xl overflow-hidden relative cursor-zoom-in"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
         <img
           src={mainImage}
           alt={product?.name}
-          className={`w-full h-full object-cover rounded-xl transition-transform duration-200 ${
+          className={`w-full sm:h-full object-cover rounded-xl transition-transform duration-200 ${
             zoom.active ? "scale-150" : "scale-100"
           }`}
           style={{
@@ -101,22 +162,9 @@ const Productdetails = () => {
         />
       </div>
 
-      {/* Thumbnails */}
-      {product?.imagesUrl?.length > 1 && (
-        <div className="flex gap-2 mt-4">
-          {product.imagesUrl.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt={`thumb-${index}`}
-              className={`w-24 h-24 object-cover rounded-md cursor-pointer border ${
-                mainImage === img ? "border-black" : "border-gray-300"
-              }`}
-              onClick={() => setMainImage(img)}
-            />
-          ))}
-        </div>
-      )}
+      
+    
+     </div>
     </div>
             
             {/* Left side - Images */}

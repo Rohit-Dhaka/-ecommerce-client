@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { UseMyContext } from "../../context/Mycontext";
 
 const Myorders = () => {
-  const { orders , getOrder } = UseMyContext();
+  const { getallorder, allorders } = UseMyContext();
 
-  useEffect(() =>{
-    getOrder()
-  },[])
+  useEffect(() => {
+    getallorder();
+  }, []);
 
-  if (!Array.isArray(orders)) {
+  if (!Array.isArray(allorders)) {
     return (
       <section className="pt-[89px] pb-[24px]">
         <div className="container">
@@ -21,50 +21,55 @@ const Myorders = () => {
 
   return (
     <section>
-      <div className="container">
-        <div className="flex items-center gap-3 pt-[89px] pb-3">
-          <h3 className="font-medium text-[30px]">MY ORDERS</h3>
-          <span className="h-[2px] w-[50px] bg-black inline-block"></span>
+      <div className="container px-3">
+        {/* Header */}
+        <div className="flex items-center gap-3 pt-[40px] md:pt-[80px] pb-3">
+          <h3 className="font-medium text-[24px] md:text-[30px]">MY ORDERS</h3>
+          <span className="h-[2px] w-[40px] md:w-[50px] bg-black inline-block"></span>
         </div>
 
+        {/* Orders List */}
         <div className="pt-[22px] pb-[24px] border-t border-solid border-[#D1D1D1]">
-          {orders.length === 0 ? (
+          {allorders.length === 0 ? (
             <p className="text-[18px] text-gray-600">No orders found</p>
           ) : (
-            orders.map((order) => (
+            allorders.map((order) => (
               <div
                 key={order._id}
-                className="flex flex-row mx-[-12px] flex-wrap mb-6 border-b pb-4"
+                className="flex flex-col lg:flex-row gap-6 border-b pb-6 mb-6"
               >
-                {/* Left: Product info */}
-                <div className="w-6/12 px-3">
-                  {order.cartItems?.map((item) => (
-                    <div key={item._id} className="flex gap-[23px] mb-4">
-                      <div className="h-[131px] w-[131px] border flex items-center justify-center">
- <img
-  src={item?.image || "/placeholder.png"}
-  alt={item?.title || item?.productId?.title || "No title"}
-  className="object-cover w-full h-full"
-/>
-
-
+                {/* Left Section - Product List */}
+                <div className="w-full lg:w-6/12">
+                  {order.items?.map((item) => (
+                    <div
+                      key={item._id}
+                      className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-6"
+                    >
+                      {/* Product Image */}
+                      <div className="h-[150px] w-[150px] sm:h-[120px] sm:w-[120px] border rounded-md overflow-hidden flex items-center justify-center">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="object-cover w-full h-full"
+                        />
                       </div>
-                      <div>
-                        <h5 className="font-outfit text-[#494949] font-medium text-[22px]">
-                          {item.productId.title}
+
+                      {/* Product Info */}
+                      <div className="flex flex-col gap-1">
+                        <h5 className="font-outfit text-[#494949] font-medium text-[20px] sm:text-[22px]">
+                          {item.name}
                         </h5>
-                        <div className="py-4 flex gap-3 flex-wrap">
-                          <h6 className="text-[#494949] text-[20px] font-light font-outfit">
-                            ${item.productId.price}
+
+                        <div className="flex flex-wrap gap-3 mt-2">
+                          <h6 className="text-[#494949] text-[18px] font-light">
+                            ₹{item.price}
                           </h6>
-                          <h6 className="text-[#494949] text-[20px] font-medium font-outfit">
-                            Quantity: {item.quantity}
-                          </h6>
-                          <h6 className="text-[#494949] text-[20px] font-medium font-outfit">
-                            Size: {item.size}
+                          <h6 className="text-[#494949] text-[18px] font-medium">
+                            Qty: {item.quantity}
                           </h6>
                         </div>
-                        <h6 className="font-outfit font-medium text-[16px] text-[#3C3C3C]">
+
+                        <h6 className="font-outfit font-medium text-[14px] mt-2">
                           Date:{" "}
                           <span className="text-[#989898]">
                             {new Date(order.createdAt).toLocaleDateString()}
@@ -75,19 +80,19 @@ const Myorders = () => {
                   ))}
                 </div>
 
-                {/* Middle: Status */}
-                <div className="w-3/12 px-3 flex items-center">
-                  <div className="flex gap-[10px] items-center">
+                {/* Middle Section - Status */}
+                <div className="w-full lg:w-3/12 flex items-start lg:items-center">
+                  <div className="flex items-center gap-2">
                     <div className="w-3 h-3 bg-[#00A625] rounded-full"></div>
-                    <h3 className="font-outfit text-[20px] text-[#454545]">
+                    <h3 className="font-outfit text-[18px] sm:text-[20px] text-[#454545]">
                       {order.status || "Processing"}
                     </h3>
                   </div>
                 </div>
 
-                {/* Right: Actions */}
-                <div className="w-3/12 px-3 flex items-center justify-end">
-                  <button className="font-outfit font-normal text-[20px] border border-solid border-[#BABABA] rounded-[4px] py-2 px-[35px]">
+                {/* Right Section - Track Order Button */}
+                <div className="w-full lg:w-3/12 flex lg:items-center lg:justify-end">
+                  <button className="font-outfit text-[18px] sm:text-[20px] border border-[#BABABA] rounded-md py-2 px-6 hover:bg-gray-100 transition">
                     Track Order
                   </button>
                 </div>

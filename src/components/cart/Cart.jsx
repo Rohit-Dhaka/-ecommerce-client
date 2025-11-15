@@ -15,12 +15,12 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
   try {
-    await removeCart(productId); // API call
-    alert("✅ Item removed from cart");
-    getCart(); // cart ko update karna
+    await removeCart(productId); 
+    alert(" Item removed from cart");
+    getCart(); 
   } catch (error) {
     console.log(error);
-    alert("❌ Failed to remove item");
+    alert(" Failed to remove item");
   }
 };
 
@@ -28,6 +28,7 @@ const Cart = () => {
 console.log(cart)
   return (
     <section>
+      
 
       
         
@@ -36,7 +37,7 @@ console.log(cart)
       
       
       <div className="container">
-        <div className="flex items-center gap-3 pt-[89px] pb-3">
+        <div className="flex items-center gap-3  pt-[89px] pb-3">
           <h3 className=" font-medium text-[30px] ">YOUR CART </h3>
           <span className="h-[2px] w-[50px] bg-black  inline-block"></span>
         </div>
@@ -55,7 +56,7 @@ console.log(cart)
         key={item._id}
         className="flex flex-row mx-[-12px] flex-wrap mb-6"
       >
-        <div className="w-6/12 px-3 flex gap-[23px]">
+        <div className="lg:w-6/12  w-full px-3 flex gap-[23px]">
           <div className="h-[131px] w-[131px] border flex items-center justify-center">
             <img
               src={item.productId?.imagesUrl?.[0]}
@@ -78,7 +79,7 @@ console.log(cart)
           </div>
         </div>
 
-        <div className="w-3/12 px-3 flex items-center">
+        <div className="lg:w-3/12  w-6/12 lg:py-0 py-5 px-3 flex items-center">
           <div className="flex gap-[10px] items-center">
             <div className="w-3 h-3 bg-[#00A625] rounded-full"></div>
             <h3 className="font-outfit text-[20px] text-[#454545]">
@@ -87,7 +88,7 @@ console.log(cart)
           </div>
         </div>
 
-        <div className="w-3/12 px-3 flex items-center justify-end">
+        <div className="lg:w-3/12  w-6/12 px-3 flex items-center justify-end">
           <button onClick={() => handleRemove(item._id)}>
             <Delete />
           </button>
@@ -98,8 +99,8 @@ console.log(cart)
 </div>
 
         {/* ---------------- */}
-        <div className="flex justify-end">
-          <div className="w-[40%]">
+        <div className="flex lg:justify-end sm:pb-[120px] pb-[60px] ">
+          <div className="lg:w-[40%] w-full">
             <div className="flex items-center gap-3 pt-[89px] pb-3">
               <h3 className="font-medium text-[30px]">CART TOTALS</h3>
               <span className="h-[2px] w-[50px] bg-black inline-block"></span>

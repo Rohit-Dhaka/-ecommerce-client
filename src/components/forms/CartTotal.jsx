@@ -6,7 +6,7 @@ const CartTotal = () => {
   const { subtotal, shipping, total, getCartTotal } = UseMyContext();
 
   useEffect(() => {
-    getCartTotal(); // 🔹 refresh totals whenever CartTotal loads
+    getCartTotal();
   }, []);
 
   return (

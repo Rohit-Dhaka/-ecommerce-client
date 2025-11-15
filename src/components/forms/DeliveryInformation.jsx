@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { UseMyContext } from "../../context/Mycontext";
 import { useNavigate } from "react-router-dom";
+import Title from "../common/Title";
 
 const DeliveryInformation = () => {
-  const { createaddress } = UseMyContext(); // function from context
+  const { createaddress } = UseMyContext();
 
-  // form state
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -20,7 +21,7 @@ const DeliveryInformation = () => {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const  navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -35,7 +36,7 @@ const DeliveryInformation = () => {
     setMessage("");
 
     try {
-      // Call context function to save address
+      
       const res = await createaddress(formData);
       setMessage(res.message || "✅ Address saved successfully!");
       setFormData({
@@ -49,7 +50,7 @@ const DeliveryInformation = () => {
         country: "",
         streetAddress: "",
       });
-      navigate('/payment')
+      navigate("/payment");
     } catch (error) {
       console.error(error);
       setMessage("❌ Failed to save address");
@@ -62,12 +63,9 @@ const DeliveryInformation = () => {
     <section>
       <div className="container">
         <div className="flex justify-center">
-          <div className="lg:w-6/12 w-full px-3 pb-20">
-            <div className="flex items-center gap-3 pt-[89px] pb-3">
-              <h3 className="font-medium text-[30px] text-uppercase">
-                Delivery Information
-              </h3>
-              <span className="h-[2px] w-[50px] bg-black inline-block"></span>
+          <div className="lg:w-6/12 w-full sm:px-3 pb-20">
+            <div className="pt-[89px]">
+              <Title text1={"Delivery"} text2={"Information"} />
             </div>
 
             {message && (

@@ -5,12 +5,12 @@ import { Logo } from '../../icon';
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
-    <section>
+    <footer className='bg-gray-100'>
       <div className="container">
         <div className="flex flex-wrap flex-row mx-[-12px] pb-[62px] border-b-[1px] border-solid border-[#BDBDBD] pt-[100px]">
           <div className="lg:w-6/12 w-full px-3">
           <div className="">
-            <Link to='/'> <Logo/>  </Link>
+            <Link to='/'> <Logo className="sm:w-[143px] w-[100px]"/>  </Link>
             
             <h6 className='font-outfit text-[18px] leading-[30px] font-normal text-[#595959] max-w-[646px] pt-10'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</h6>
           </div>
@@ -42,7 +42,7 @@ const Footer = () => {
         <h6 className='font-outfit text-[#565656] text-[18px] leading-[30px] py-[29px] text-center'>Copyright {year} © GreatStack.dev - All Right Reserved.</h6>
       </div>
       
-    </section>
+    </footer>
   )
 }
 

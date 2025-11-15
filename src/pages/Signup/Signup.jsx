@@ -8,7 +8,7 @@ const Signup = () => {
     <div>
         <SignupForm/>
         <Subscribe/>
-        <Footer/>
+        
     </div>
   )
 }

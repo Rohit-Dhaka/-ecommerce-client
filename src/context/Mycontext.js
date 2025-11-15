@@ -1,227 +1,192 @@
-import {  createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../utils/api";
 import { useNavigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
+const MyContext = createContext(null);
 
-const MyContext = createContext(null)
+export const ProviderContext = ({ children }) => {
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
+  const [shipping, setShipping] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
+  const [orders, setOrders] = useState([]);
+  const [paymentData, setPaymentData] = useState(null);
+  const [user, setUser] = useState(null);
+  const [allorders, setAllorders] = useState([])
 
-
-export const ProviderContext = ({children}) =>{
-    const navigate = useNavigate()
-    const [isLogin , setIsLogin] = useState(false)
-    const [products , setProducts] = useState([])
-    const [ cart , setCart] = useState([])  
-    const [subtotal, setSubtotal] = useState(0);
-    const [shipping, setShipping] = useState(0);
-    const [total, setTotal] = useState(0);
-    const [cartCount, setCartCount] = useState(0);
-    const [orders, setOrders] = useState([]);
-    const [paymentData, setPaymentData] = useState(null);
-  
-    
-    useEffect(() =>{
-        const token = localStorage.getItem("token")
-        if(token){
-            setIsLogin(true)
-        }
-    },[])     
-    const signup = async (data) =>{
-        try{
-            const response = await api.post("auth/signup" , data)
-            console.log(response)
-            navigate('/login')
-        }
-        catch(error){
-            console.log("Signup error" , error)
-        }
-    }
-    const login = async (data) =>{
-        try{
-            const response = await api.post('auth/login' , data)
-            console.log(response)
-            const token = response.data.token 
-            localStorage.setItem("token" , token)
-            navigate("/home")
-        }
-        catch(error){
-            console.log(error)
-        }
-    }
-    const logout = () =>{
-        
-        localStorage.removeItem("token");
-        setIsLogin(false)
-        navigate('/login')
-    }
-    const getallproduct = async () =>{
-        
-        try{
-            const token = localStorage.getItem("token")
-            const response = await api.get("products/getproduct" ,   { headers:{
-                Authorization: `Bearer ${token}`
-            }}  )
-            console.log(response)
-            setProducts(response.data.allproduct)
-            
-        }
-        catch(error){
-            console.log(error)
-        }
-    }
-    const getOneproduct = async (id) => {
-    try {
-        const token = localStorage.getItem("token")
-        const response = await api.get(`products/getOneProduct/${id}`, { 
-            headers: { Authorization: `Bearer ${token}` } 
-        })
-        return response.data.oneproduct
-    } catch (error) {
-        console.log("Get one product error:", error)
-        return null
-    }
-    }
-    const addToCart = async (id , data) =>{
-  try{
-    const token = localStorage.getItem("token")
-    const response =  await api.post(`cart/addcart/${id}`, data , {
-        headers:{
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-        }
-    })
-    return response.data;
-  }
-  catch(error){
-    console.log("Add to cart error:", error.response?.data || error.message)
-  }
-    }
-    const getCart = async () =>{
-        try{
-            const token = localStorage.getItem("token")
-            const response = await api.get("cart/getcart" , {
-                headers:{
-                    Authorization: `Bearer ${token}`
-                }
-            })         
-                setCart(response.data); 
-            return response.data;
-        }
-        catch(error){
-            console.log(error)
-        }
-    }
-    const removeCart = async (productId) =>{
-        const token = localStorage.getItem("token")
-        try{
-            const response = await api.delete(`cart/removecart/${productId}` , {
-                headers:{
-                    Authorization: `Bearer ${token}`,
-                }
-            } )
-            getCart();
-            getCartTotal()
-            return response.data;
-        }
-        catch(error){
-            console.log(error)
-        }
-    }
-    const getCartTotal = async () => {
+  useEffect(() => {
     const token = localStorage.getItem("token");
+    if (token) {
+      setIsLogin(true);
+      fetchUser();
+    }
+  }, []);
+
+  const fetchUser = async () => {
     try {
-      const response = await api.get("cart/total", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const {  subtotal, shipping, total } = response.data;
       
+      const response = await api.get("auth/getuser", );
+      setUser(response.data.user); 
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const signup = async (data) => {
+    try {
+      const response = await api.post("auth/signup", data);
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.log("Signup error", error);
+    }
+  };
+  const login = async (data) => {
+    try {
+      const response = await api.post("auth/login", data);
+      console.log(response);
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      navigate("/home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const logout = () => {
+    localStorage.removeItem("token");
+    setIsLogin(false);
+    navigate("/login");
+  };
+  const getallproduct = async () => {
+    try {
+      
+      const response = await api.get("products/getproduct", );
+      console.log(response);
+      setProducts(response.data.allproduct);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getOneproduct = async (id) => {
+    try {
+      
+      const response = await api.get(`products/getOneProduct/${id}`);
+      return response.data.oneproduct;
+    } catch (error) {
+      console.log("Get one product error:", error);
+      return null;
+    }
+  };
+  const addToCart = async (id, data) => {
+    try {
+      
+      const response = await api.post(`cart/addcart/${id}`, data, );
+      return response.data;
+    } catch (error) {
+      console.log("Add to cart error:", error.response?.data || error.message);
+    }
+  };
+  const getCart = async () => {
+    try {
+      
+      const response = await api.get("cart/getcart", );
+      setCart(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const removeCart = async (productId) => {
+    
+    try {
+      const response = await api.delete(`cart/removecart/${productId}`,);
+      getCart();
+      getCartTotal();
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getCartTotal = async () => {
+    
+    try {
+      const response = await api.get("cart/total", );
+      const { subtotal, shipping, total } = response.data;
+
       setSubtotal(subtotal);
       setShipping(shipping);
       setTotal(total);
     } catch (error) {
       console.log(error);
     }
-    };
-    const cartLength = async () => {
-    const token = localStorage.getItem("token")
-    try{
-        const response = await api.get("/cart/cartlength" ,{
-            headers:{
-                Authorization: `Bearer ${token}`
-            }
-        })
-              setCartCount(response.data.length); // total items in cart
-
-        return response.data;
-
-
-    }
-    catch(error){
-        console.log(error)
-    }
-    }
-    const createOrder = async (orderData) => {
-  const token = localStorage.getItem("token");
-
-  try {
-    // decode token
-    const decoded = jwtDecode(token);
-    const userId = decoded.userId || decoded.id || decoded._id; // depends on your backend payload
-
-    // attach userId to orderData
-    const finalData = { ...orderData, userId };
-
-    const response = await api.post("delivery/createdeliver", finalData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-    };
-    const getOrder = async () => {
-    const token = localStorage.getItem("token");
-  if (!token) return;
-
-  try {
-    const response = await api.post(
-      "/delivery/getuserOrders",
-      {},
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    console.log("📦 API Orders Response:", response.data);
-
-    // Always pick the orders array from response
-    const ordersData = Array.isArray(response.data.orders)
-      ? response.data.orders
-      : [];
-
-    setOrders(ordersData);
-  } catch (error) {
-    console.error("Error fetching orders:", error);
-    setOrders([]); // fallback so UI doesn’t break
-  }
-    };
-      const paymentOder = async () => {
+  };
+  const cartLength = async () => {
+    
     try {
-      const token = localStorage.getItem("token"); // auth token
-      const res = await api.post(
-        "/payment",
+      const response = await api.get("/cart/cartlength",);
+      setCartCount(response.data.length); 
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const createOrder = async (orderData) => {
+    
+
+    try {
+      
+      const token = localStorage.getItem(token)
+      const decoded = jwtDecode(token);
+      const userId = decoded.userId || decoded.id || decoded._id; 
+
+      
+      const finalData = { ...orderData, userId };
+
+      const response = await api.post("delivery/createdeliver", finalData, );
+
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getOrder = async () => {
+    const token  = localStorage.getItem(token)
+    if (!token) return;
+
+    try {
+      const response = await api.post(
+        "/delivery/getuserOrders",
         {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      
+      );
+
+      console.log("📦 API Orders Response:", response.data);
+
+      
+      const ordersData = Array.isArray(response.data.orders)
+        ? response.data.orders
+        : [];
+
+      setOrders(ordersData);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      setOrders([]); 
+    }
+  };
+  const paymentcreateOrder = async (total) => {
+    try {
+      
+      const res = await api.post(
+        "/delivery/addpayment",
+        { total: total },
+       
       );
       setPaymentData(res.data);
       return res.data;
@@ -230,15 +195,21 @@ export const ProviderContext = ({children}) =>{
     }
   };
 
-  const createaddress =  async (data) =>{
-    const token = localStorage.getItem("token")
+  const createaddress = async (data) => {
+    
+    try {
+      const response = await api.post("address/addaddress", data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getallorder = async () =>{
     try{
-      const response = await api.post("address/addaddress" , data , {
-        headers:{
-          Authorization: `Bearer ${token}`
-        }
-      })
-       return response.data; 
+      const response = await api.get('order/getorder')
+      
+      setAllorders(response.data.orders)
 
     }
     catch(error){
@@ -246,14 +217,40 @@ export const ProviderContext = ({children}) =>{
     }
   }
 
-
-
-
-  
-    return(
-        <MyContext.Provider value={{ signup ,login , isLogin ,logout , getallproduct , products ,getOneproduct  ,addToCart , getCart ,cart ,removeCart  , getCartTotal  , subtotal , shipping , total , cartCount, cartLength , createOrder , getOrder , orders  , paymentOder , paymentData  , createaddress}}>
-            {children}
-        </MyContext.Provider>
-    )
-}
-export const UseMyContext = () => useContext(MyContext)
+  return (
+    <MyContext.Provider
+      value={{
+        getallorder,
+        allorders,
+        signup,
+        login,
+        isLogin,
+        logout,
+        getallproduct,
+        products,
+        getOneproduct,
+        addToCart,
+        getCart,
+        cart,
+        removeCart,
+        getCartTotal,
+        subtotal,
+        shipping,
+        total,
+        cartCount,
+        cartLength,
+        createOrder,
+        getOrder,
+        orders,
+        paymentData,
+        createaddress,
+        paymentcreateOrder,
+        fetchUser,
+        user,
+      }}
+    >
+      {children}
+    </MyContext.Provider>
+  );
+};
+export const UseMyContext = () => useContext(MyContext);

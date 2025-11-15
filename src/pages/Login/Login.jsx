@@ -7,8 +7,7 @@ const Login = () => {
   return (
     <div>
         <LoginForm/>
-        <Subscribe/>
-        <Footer/>
+        <Subscribe/>        
     </div>
   )
 }

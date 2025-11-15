@@ -7,7 +7,7 @@ const Home = () => {
     <section>
       <div className="container">
         <div className="flex flex-wrap flex-row mx-[-12px] items-center border-[1px] border-solid  border-[#C8C8C8]">
-          <div className="w-6/12 px-3">
+          <div className="lg:w-6/12 w-full px-3 max-lg:py-10">
             <div className="flex flex-col  items-center">
              <div className="">
                  <div className="flex  items-center gap-2 ">
@@ -28,11 +28,11 @@ const Home = () => {
              </div>
             </div>
           </div>
-          <div className="w-6/12 ">
+          <div className="lg:w-6/12 w-full ">
             <div className="">
               <img src={Heroimg} alt="" className="w-full" />
             </div>
-          </div>
+          </div> 
         </div>
       </div>
     </section>

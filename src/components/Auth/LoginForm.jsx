@@ -1,23 +1,59 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { UseMyContext } from '../../context/Mycontext'
 
 const LoginForm = () => {
     const {login} =  UseMyContext();
 
     const [ formdata , setFormdata] = useState({email:"" , password:""})
+      const [message , setMessage] = useState("")
+  const [bar , setBar] = useState(false)
+  const navigate = useNavigate()
+  
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e) =>{
         e.preventDefault()
-        await login(formdata)
-        setFormdata({email:"" , password:""})
-        
+        try{
+          const res = await login(formdata)
+          setMessage(res.message)
+          setBar(true)
+          
+          setTimeout(() => {
+            setMessage("")
+            setBar(false)
+            navigate("/home")
+            
+          }, 2000);
+
+        }
+        catch(error){
+          
+            setMessage(error.message)
+          setBar(true)
+          setTimeout(() => {
+            setMessage("")
+            setBar(false)
+            
+            
+          }, 2000);
+        }
         
     }
  
 
   return (
-    <section className='h-screen'>
+    <section className='h-screen relative'>
+        {message && (
+
+      
+      <div className=" absolute top-10 left-[50%] translate-x-[-50%] z-10 bg-black  flex flex-col gap-1 rounded-lg px-4 py-2">
+        <h2 className="text-white">{message}</h2>
+        {bar && (
+
+          <span className=" w-full inline-block h-1 bg-white rounded-full  animate-progress ease-linear "></span>
+        )}
+      </div>
+      )}
       <div className="container">
         <div className=" max-w-[517px] mx-auto ">
           <div className="flex items-center gap-4 justify-center pb-[38px]">
