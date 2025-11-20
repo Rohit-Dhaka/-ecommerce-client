@@ -1,26 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Delete } from "../../icon";
 import { UseMyContext } from "../../context/Mycontext";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
   const {getCart , cart  , removeCart  , getCartTotal  , subtotal , shipping , total} = UseMyContext();
-
+ const [message, setMessage] = useState("");
+  const [bar, setBar] = useState(false);
   useEffect(() =>{
       getCart();
       getCartTotal();
   },[])
   
+  
 
 
-  const handleRemove = async (productId) => {
+const handleRemove = async (productId) => {
   try {
-    await removeCart(productId); 
-    alert(" Item removed from cart");
-    getCart(); 
+    // 1. Show message first
+    setMessage("Item removed from cart");
+    setBar(true);
+
+    // 2. Wait 2 seconds before actually deleting the product
+    setTimeout(async () => {
+      try {
+        await removeCart(productId);  // API call
+        await getCart();              // Refresh UI
+      } catch (err) {
+        console.log(err);
+        alert("Failed to remove item");
+      }
+
+      // Clear message bar
+      setMessage("");
+      setBar(false);
+    }, 2000);
+
   } catch (error) {
     console.log(error);
-    alert(" Failed to remove item");
+    alert("Failed to remove item");
   }
 };
 
@@ -28,6 +46,14 @@ const Cart = () => {
 console.log(cart)
   return (
     <section>
+         {message && (
+        <div className="absolute top-10 left-[50%] translate-x-[-50%] z-10 bg-black flex flex-col gap-1 rounded-lg px-4 py-2">
+          <h2 className="text-white">{message}</h2>
+          {bar && (
+            <span className="w-full inline-block h-1 bg-white rounded-full animate-progress ease-linear"></span>
+          )}
+        </div>
+      )}
       
 
       
@@ -67,6 +93,8 @@ console.log(cart)
           <div>
             <h5 className="font-outfit text-[#494949] font-medium text-[22px]">
               {item.productId?.title}
+              {/* p{item.productId} */}
+              
             </h5>
             <div className="py-4 flex gap-3 items-center">
               <h6 className="text-[#494949] text-[24px] font-light font-outfit">
@@ -89,7 +117,7 @@ console.log(cart)
         </div>
 
         <div className="lg:w-3/12  w-6/12 px-3 flex items-center justify-end">
-          <button onClick={() => handleRemove(item._id)}>
+          <button onClick={() => handleRemove(item.productId._id)}>
             <Delete />
           </button>
         </div>

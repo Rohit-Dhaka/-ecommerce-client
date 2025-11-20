@@ -24,16 +24,14 @@ const SignupForm = () => {
 
         }
         catch(error){
-          
-            setMessage(error.message)
-          setBar(true)
-          setTimeout(() => {
-            setMessage("")
-            setBar(false)
-            
-            
-          }, 2000);
-        }
+  setMessage(error.message || "Signup failed");
+  setBar(true);
+  setTimeout(() => {
+    setMessage("");
+    setBar(false);
+  }, 2000);
+}
+
         
     }
 

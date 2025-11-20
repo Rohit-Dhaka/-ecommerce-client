@@ -37,15 +37,19 @@ export const ProviderContext = ({ children }) => {
     }
   };
 
-  const signup = async (data) => {
-    try {
-      const response = await api.post("auth/signup", data);
-      console.log(response);
-      return response.data;
-    } catch (error) {
-      console.log("Signup error", error);
-    }
-  };
+const signup = async (data) => {
+  try {
+    const response = await api.post("auth/signup", data);
+    return response.data;
+  } catch (error) {
+    console.log("Signup error", error);
+
+    // FIX → return backend error
+    throw error.response?.data || { message: "Signup failed" };
+  }
+};
+
+
   const login = async (data) => {
     try {
       const response = await api.post("auth/login", data);

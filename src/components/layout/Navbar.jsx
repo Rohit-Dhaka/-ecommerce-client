@@ -129,16 +129,16 @@ const Navbar = () => {
                       </div>
                     </>
                   ) : (
-                    <div className="flex gap-2">
+                    <Link to="/login" className="flex gap-2">
                       <LogIn size={24} className="text-black cursor-pointer" />
 
-                      <Link
-                        to="/login"
+                      <h6
+                        
                         className="text-[#5B5B5B] hover:text-blue-600"
                       >
                         Login
-                      </Link>
-                    </div>
+                      </h6>
+                    </Link>
                   )}
                 </div>
               )}

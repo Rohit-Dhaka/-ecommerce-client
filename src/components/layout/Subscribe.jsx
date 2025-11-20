@@ -35,7 +35,7 @@ const Subscribe = () => {
             <p className='font-outfit font-normal text-[18px] text-[#9A9A9A] text-center pt-[19px] pb-[46px]'>Lorem Ipsum is simply dummy text of the printing and typesetting  industry. </p>
             <div className="border-[1px] border-solid border-[#C7C7C7] max-w-[724px] flex w-full">
                 <input type="email" placeholder='Enter your email id' className='font-outfit text-[#9A9A9A] text-[14px]  w-full ps-5' />
-                <input type="submit"  value='SUBSCRIBE' className='text-white font-outfit font-normal text-[16px] bg-black px-11 py-[21px]' />
+                <input type="submit"  value='SUBSCRIBE' className='text-white cursor-pointer  font-outfit font-normal text-[16px] bg-black px-11 py-[21px]' />
             </div>   </div>         
 
         </div>
