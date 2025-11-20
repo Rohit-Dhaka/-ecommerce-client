@@ -145,7 +145,7 @@ const signup = async (data) => {
 
     try {
       
-      const token = localStorage.getItem(token)
+      const token = localStorage.getItem("token")
       const decoded = jwtDecode(token);
       const userId = decoded.userId || decoded.id || decoded._id; 
 

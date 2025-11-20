@@ -40,8 +40,9 @@ const Payment = () => {
         currency: orderData.order.currency,
         name: "Your App Name",
         order_id: orderData.order.id,
-
+        
         handler: async (response) => {
+          navigate("/orders"); 
           try {
             const token = localStorage.getItem("token");
 
@@ -57,7 +58,7 @@ const Payment = () => {
             const data = await verifyRes.json();
             console.log("Payment verified:", data);
 
-            navigate("/orders"); // move here — after payment success
+            
 
           } catch (err) {
             console.log("Payment verification error:", err);

@@ -53,7 +53,7 @@ const DeliveryInformation = () => {
       navigate("/payment");
     } catch (error) {
       console.error(error);
-      setMessage("❌ Failed to save address");
+      setMessage("Failed to save address");
     } finally {
       setLoading(false);
     }
@@ -107,7 +107,7 @@ const DeliveryInformation = () => {
               />
 
               <input
-                type="text"
+                type="number"
                 name="phone"
                 onChange={handleChange}
                 value={formData.phone}
@@ -139,7 +139,7 @@ const DeliveryInformation = () => {
 
               <div className="flex gap-[15px] mt-4">
                 <input
-                  type="text"
+                  type="number"
                   name="zip"
                   onChange={handleChange}
                   value={formData.zip}
