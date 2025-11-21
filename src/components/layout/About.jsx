@@ -1,14 +1,14 @@
 import React from "react";
 import Aboutimg from "../../assets/webp/about_img.png";
+import Title from "../common/Title";
 const About = () => {
   return (
     <section>
       <div className="container">
-        <div className="flex items-center gap-4 justify-center pb-[38px]">
-          <h2 className=" font-outfit font-normal text-[30px] leading-[120px] text-[#414141]">
-            ABOUT <span className="text-black">US</span>
-          </h2>
-          <div className="bg-[#484848] h-[2px] w-[43px]"></div>
+        <div className="flex items-center gap-4 justify-center py-[38px] ">
+
+          <Title text1={"ABOUT"} text2={"US"}/>
+         
         </div>
         <div className="flex flex-row flex-wrap mx-[-12px] items-center">
           <div className="lg:w-6/12 w-full px-3">

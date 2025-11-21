@@ -24,6 +24,7 @@ import Hero from "./components/layout/Hero";
 
 import Layout from "./Layout";
 import ScrollToTop from "./components/layout/ScrollToTop";
+import Privacy from "./components/layout/Privacy";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="/orders" element={<Orderspage />} />
           
           <Route path="/cart" element={<Cartpage />} />
+          <Route path="/privacy" element={<Privacy />} />
           <Route path="/collection" element={<Allcollections />} />
           <Route path="/productdetails/:id" element={<Productdetailspage />} />
           <Route

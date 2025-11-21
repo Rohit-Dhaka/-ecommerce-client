@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Cart, Logo, Profile, Search } from "../../icon";
+import { Cart,  Profile, Search } from "../../icon";
 import { UseMyContext } from "../../context/Mycontext";
 import { LogIn, LogOut, ShoppingCart, User } from "lucide-react";
 
@@ -36,9 +36,10 @@ const Navbar = () => {
   return (
     <nav>
       <div className="container">
-        <div className="pt-[29px] pb-[19px] border-b-[1px] border-solid border-[#ADADAD] flex justify-between items-center">
-          <Link to="/"  className="z-20">
-            <Logo className='max-sm:w-[100px] w-[148px]  '  />
+        <div className="sm:pt-[29px] pt-[19px] pb-[19px] border-b-[1px] border-solid border-[#ADADAD] flex justify-between items-center">
+          <Link to="/"  className="z-20 text-[32px] uppercase font-semibold">
+            
+            Shopora
           </Link>
 
           

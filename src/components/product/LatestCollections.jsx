@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { UseMyContext } from "../../context/Mycontext";
 import { Link } from "react-router-dom";
+import Title from "../common/Title";
 
 const LatestCollections = () => {
     const {getallproduct , products } = UseMyContext();
@@ -16,8 +17,7 @@ const LatestCollections = () => {
       <div className="container">
         <div className=" flex flex-col items-center">
           <div className="flex items-center gap-3 pt-[89px] pb-3">
-            <h3 className=" font-normal text-[30px] text-[#707070]">LATEST <span className=" font-medium text-black">COLLECTIONS</span> </h3>
-            <span className="h-[2px] w-[50px] bg-black  inline-block"></span>
+            <Title text1={"LATEST"}  text2={"COLLECTIONS"}  />        
           </div>
           <p className="text-[#868686] font-outfit  text-[18px]">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the.</p>
         </div>

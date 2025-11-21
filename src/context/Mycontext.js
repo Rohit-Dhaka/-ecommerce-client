@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 const MyContext = createContext(null);
 
@@ -220,10 +221,56 @@ const signup = async (data) => {
       console.log(error)
     }
   }
+ const incrementQty = async (productId) => {
+    try {
+      const response = await api.put(`/cart/cartupdate/${productId}`, {
+        action: "inc",
+      });
+
+      setCart((prev) =>
+        prev.map((item) =>
+          item.productId === productId
+            ? { ...item, quantity: response.data.quantity }
+            : item
+        )
+      );
+      getCartTotal()
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 🔽 Decrement
+  const decrementQty = async (productId) => {
+    try {
+      const response = await api.put(`/cart/cartupdate/${productId}`, {
+        action: "dec",
+      });
+
+      if (response.data.message === "Product removed from cart") {
+        // remove from UI
+        setCart((prev) => prev.filter((item) => item.productId !== productId));
+      } else {
+        // update qty
+        setCart((prev) =>
+          prev.map((item) =>
+            item.productId === productId
+              ? { ...item, quantity: response.data.quantity }
+              : item
+          )
+        );
+      }
+      getCartTotal();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <MyContext.Provider
       value={{
+        incrementQty,
+        decrementQty,
         getallorder,
         allorders,
         signup,

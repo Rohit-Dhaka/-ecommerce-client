@@ -1,15 +1,14 @@
 import React from "react";
 import Contactimg from "../../assets/webp/contact_img.png";
+import Title from "../common/Title";
 
 const Contact = () => {
   return (
     <section>
       <div className="container">
-        <div className="flex items-center gap-4 justify-center pb-[38px]">
-          <h2 className=" font-outfit font-normal text-[30px] leading-[120px] text-[#414141]">
-            CONTACT <span className="text-black">US</span>
-          </h2>
-          <span className="bg-[#484848] h-[2px] w-[43px]"></span>
+        <div className="flex items-center gap-4 justify-center py-[38px]">
+          <Title text1={"CONTACT"} text2={"US"}/>
+       
         </div>
         <div className="flex flex-row flex-wrap mx-[-12px] items-center pb-[100px]">
           <div className="lg:w-6/12 w-full px-3">
