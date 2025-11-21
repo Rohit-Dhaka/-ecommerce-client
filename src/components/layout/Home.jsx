@@ -16,7 +16,7 @@ const Home = () => {
                   our bestsellers
                 </h5>
               </div>
-              <h1 className="font-prata text-[60px]  leading-[120px]  font-normal text-[#414141]">
+              <h1 className="font-prata sm:text-[60px] text-[42px]  sm:leading-[120px] leading-[60px]  font-normal text-[#414141]">
                 Latest Arrivals
               </h1>
               <div className="flex  items-center gap-2">
