@@ -9,11 +9,11 @@ module.exports = {
   center: true,
   padding: '12px',
   screens: {
-    sm: '640px',   // Small devices (phones)
-    md: '768px',   // Medium devices (tablets)
-    lg: '1024px',  // Large devices (laptops)
-    xl: '1280px',  // Extra large devices (desktops)
-    '2xl': '1536px', // Ultra-wide screens
+    sm: '640px',   
+    md: '768px',   
+    lg: '1024px',  
+    xl: '1280px',  
+    '2xl': '1536px', 
   },
 },
 

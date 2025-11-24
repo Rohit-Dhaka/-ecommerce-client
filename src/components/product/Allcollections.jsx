@@ -3,13 +3,12 @@ import { assets } from "../../assets/webp/assets.js";
 import Title from "../../components/common/Title";
 import { UseMyContext } from "../../context/Mycontext.js";
 import { Link } from "react-router-dom";
+import Loader from "../common/Loader.jsx";
 
 const Allcollections = () => {
   const { getallproduct, products, search, showSearch } = UseMyContext();
 
-  useEffect(() => {
-    getallproduct();
-  }, []);
+ 
   
       
   
@@ -18,6 +17,18 @@ const Allcollections = () => {
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState("relevent");
+  const [loading, setLoading] = useState(true);
+
+
+   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      await getallproduct();
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
@@ -86,7 +97,9 @@ const applyFilter = () => {
   }, [sortType]);
 
   return (
-   <section>
+   <section className=" relative">
+    {loading && <Loader />}
+    
     <div className="container">
        <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
       {/* Filter options  */}

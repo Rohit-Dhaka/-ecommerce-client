@@ -3,6 +3,7 @@ import { Delete } from "../../icon";
 import { UseMyContext } from "../../context/Mycontext";
 import { Link } from "react-router-dom";
 import Title from "../common/Title";
+import MessageBar from "../common/MessageBar";
 
 const Cart = () => {
   const {getCart , cart  , removeCart  , getCartTotal  , subtotal , shipping , total , incrementQty,
@@ -12,7 +13,7 @@ const Cart = () => {
 
 
   useEffect(() => {
-  getCart();    // runs 1 time only
+  getCart();    
 }, []);
 
 
@@ -27,28 +28,28 @@ useEffect(() => {
 
 const handleRemove = async (productId) => {
   try {
-    // 1. Show message first
+    
     setMessage("Item removed from cart");
     setBar(true);
 
-    // 2. Wait 2 seconds before actually deleting the product
+    
     setTimeout(async () => {
       try {
-        await removeCart(productId);  // API call
-        await getCart();              // Refresh UI
+        await removeCart(productId);  
+        await getCart();              
       } catch (err) {
         console.log(err);
-        alert("Failed to remove item");
+        
       }
 
-      // Clear message bar
+      
       setMessage("");
       setBar(false);
     }, 2000);
 
   } catch (error) {
     console.log(error);
-    alert("Failed to remove item");
+    
   }
 };
 
@@ -57,15 +58,7 @@ console.log(cart)
   return (
    <section>
 
-  {/* Notification Bar */}
-  {message && (
-    <div className="absolute top-10 left-1/2 -translate-x-1/2 z-10 bg-black flex flex-col gap-1 rounded-lg px-4 py-2">
-      <h2 className="text-white">{message}</h2>
-      {bar && (
-        <span className="w-full h-1 bg-white rounded-full animate-progress"></span>
-      )}
-    </div>
-  )}
+<MessageBar message={message} showBar={bar} />
 
   <div className="container">
 

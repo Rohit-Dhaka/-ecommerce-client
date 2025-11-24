@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { UseMyContext } from "../../context/Mycontext";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Mybuttion from "../common/Mybuttion";
+import MessageBar from "../common/MessageBar";
+import Loader from "../common/Loader";
+
 
 const Productdetails = () => {
   
-  const { getOneproduct, addToCart } = UseMyContext();
+  const { getOneproduct, addToCart  , addPayment } = UseMyContext();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,6 +18,8 @@ const Productdetails = () => {
   const [cartLoading, setCartLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [bar, setBar] = useState(false);
+  
+
   const navigate = useNavigate();
 
   const [zoom, setZoom] = useState({ x: 0, y: 0, active: false });
@@ -30,7 +35,7 @@ const Productdetails = () => {
     setZoom((prev) => ({ ...prev, active: false }));
   };
 
-  // Fetch product
+  
   useEffect(() => {
     if (!id) return;
 
@@ -51,7 +56,7 @@ const Productdetails = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  // Add to cart
+  
   const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
 
@@ -91,7 +96,7 @@ const Productdetails = () => {
     }
   };
 
-  // Auto message helper
+  
   const showMessage = (msg, callback = null) => {
     setMessage(msg);
     setBar(true);
@@ -103,16 +108,15 @@ const Productdetails = () => {
     }, 2000);
   };
 
+
+  
+
   return (
     <section className="relative">
-      {message && (
-        <div className="absolute top-10 left-[50%] translate-x-[-50%] z-10 bg-black flex flex-col gap-1 rounded-lg px-4 py-2">
-          <h2 className="text-white">{message}</h2>
-          {bar && (
-            <span className="w-full inline-block h-1 bg-white rounded-full animate-progress ease-linear"></span>
-          )}
-        </div>
-      )}
+     <MessageBar message={message} showBar={bar} />
+     {loading && <Loader />}
+
+
 
       <div className="container">
         <div className="py-[51px]">
@@ -207,7 +211,27 @@ const Productdetails = () => {
                     name={cartLoading ? "ADDING..." : "ADD TO CART"}
                     onClick={handleAddToCart}
                     disabled={cartLoading}
-                  />
+                  />                  
+               <button
+  onClick={() => {
+    if (!selectedSize) {
+      showMessage("Please select a size before buying");
+      return;
+    }
+
+    navigate("/deliveryInformationone", {
+      state: {
+        product: product,
+        selectedSize: selectedSize,
+        quantity: 1
+      }
+    });
+  }}
+  className="bg-black text-white px-6 sm:ms-4 max-sm:mt-2  py-4 rounded-md  font-semibold "
+>
+  Buy Now
+</button>
+
 
                   <h6 className="font-outfit text-[#555555] pt-3 border-t mt-3">
                     100% Original product.

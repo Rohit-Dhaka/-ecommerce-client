@@ -1,12 +1,18 @@
+
 import React, { useState } from "react";
 import { UseMyContext } from "../../context/Mycontext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";  
 import Title from "../common/Title";
-
-const DeliveryInformation = () => {
-  const { createaddress } = UseMyContext();
-
+const DeliveryInformationone = () => {
   
+
+   const { createaddress } = UseMyContext();
+
+  const location = useLocation();   
+  const navigate = useNavigate();   
+
+  const { product, selectedSize, quantity } = location.state || {};   
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -21,7 +27,6 @@ const DeliveryInformation = () => {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -36,21 +41,18 @@ const DeliveryInformation = () => {
     setMessage("");
 
     try {
-      
       const res = await createaddress(formData);
       setMessage(res.message || "✅ Address saved successfully!");
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        city: "",
-        state: "",
-        zip: "",
-        country: "",
-        streetAddress: "",
+
+      
+      navigate("/singlepayment", {
+        state: {
+          product,
+          selectedSize,
+          quantity
+        }
       });
-      navigate("/payment");
+
     } catch (error) {
       console.error(error);
       setMessage("Failed to save address");
@@ -188,4 +190,4 @@ const DeliveryInformation = () => {
   );
 };
 
-export default DeliveryInformation;
+export default DeliveryInformationone;

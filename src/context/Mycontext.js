@@ -45,10 +45,21 @@ const signup = async (data) => {
   } catch (error) {
     console.log("Signup error", error);
 
-    // FIX → return backend error
+    
     throw error.response?.data || { message: "Signup failed" };
   }
 };
+
+const addPayment = async (data) => {
+  try {
+    const response = await api.post("delivery/addpayment", data);
+    return response.data;
+  } catch (error) {
+    console.log("Add Payment Error:", error);
+    throw error;
+  }
+};
+
 
 
   const login = async (data) => {
@@ -57,7 +68,7 @@ const signup = async (data) => {
       console.log(response);
       const token = response.data.token;
       localStorage.setItem("token", token);
-      navigate("/home");
+      return response.data      
     } catch (error) {
       console.log(error);
     }
@@ -240,7 +251,7 @@ const signup = async (data) => {
     }
   };
 
-  // 🔽 Decrement
+  
   const decrementQty = async (productId) => {
     try {
       const response = await api.put(`/cart/cartupdate/${productId}`, {
@@ -248,10 +259,10 @@ const signup = async (data) => {
       });
 
       if (response.data.message === "Product removed from cart") {
-        // remove from UI
+        
         setCart((prev) => prev.filter((item) => item.productId !== productId));
       } else {
-        // update qty
+        
         setCart((prev) =>
           prev.map((item) =>
             item.productId === productId
@@ -298,6 +309,7 @@ const signup = async (data) => {
         paymentcreateOrder,
         fetchUser,
         user,
+        addPayment
       }}
     >
       {children}

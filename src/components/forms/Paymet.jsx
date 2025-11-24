@@ -7,13 +7,13 @@ const Payment = () => {
 
   const navigate = useNavigate();
 
-  // 1) Load user info
+  
   useEffect(() => {
     fetchUser();
   }, []);
 
-  const fixedTotal = Number(total.toFixed(2)); // rupees
-  const amountInPaise = fixedTotal * 100;      // convert to paise
+  const fixedTotal = Number(total.toFixed(2)); 
+  const amountInPaise = fixedTotal * 100;      
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -30,7 +30,7 @@ const Payment = () => {
       const res = await loadRazorpayScript();
       if (!res) return;
 
-      // 2) Create order using paise
+      
       const orderData = await paymentcreateOrder(amountInPaise);
       if (!orderData) return;
 
@@ -65,7 +65,7 @@ const Payment = () => {
           }
         },
 
-        // 3) Proper prefill
+        
         prefill: {
           name: user?.name || "Guest User",
           email: user?.email || "guest@example.com",

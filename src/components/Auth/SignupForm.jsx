@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { UseMyContext } from '../../context/Mycontext'
+import MessageBar from '../common/MessageBar';
 
 const SignupForm = () => {
     const { signup} = UseMyContext();
@@ -37,17 +38,8 @@ const SignupForm = () => {
 
   return (
     <section className='h-screen relative'>
-      {message && (
-
-      
-      <div className=" absolute top-10 left-[50%] translate-x-[-50%] z-10 bg-black  flex flex-col gap-1 rounded-lg px-4 py-2">
-        <h2 className="text-white">{message}</h2>
-        {bar && (
-
-          <span className=" w-full inline-block h-1 bg-white rounded-full  animate-progress ease-linear "></span>
-        )}
-      </div>
-      )}
+    <MessageBar message={message} showBar={bar} />
+    
         
         <div className="container">
         <div className=" max-w-[517px] mx-auto">
