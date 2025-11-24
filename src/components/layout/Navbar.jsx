@@ -84,14 +84,14 @@ const Navbar = () => {
 
             {/* Profile Dropdown */}
             <div
-              className="relative group cursor-pointer"
+              className="relative group cursor-pointer "
               ref={downclickRef}
               onClick={() => setOpen(!open)}
             >
               <Profile />
 
               {open && (
-                <div className="absolute flex top-full right-0 p-4 bg-gray-200 flex-col rounded w-[200px] gap-2 shadow-lg z-10">
+                <div className="absolute flex top-full sm:right-0 right-[-80px]  p-4 bg-gray-200 flex-col rounded w-[200px] gap-2 shadow-lg z-10">
                   {isLogin ? (
                     <>
                       <div className="flex gap-2">

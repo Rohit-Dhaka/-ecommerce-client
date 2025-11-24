@@ -112,7 +112,7 @@ const Productdetails = () => {
   
 
   return (
-    <section className="relative">
+    <section className="">
      <MessageBar message={message} showBar={bar} />
      {loading && <Loader />}
 
@@ -207,7 +207,8 @@ const Productdetails = () => {
                     ))}
                   </div>
 
-                  <Mybuttion
+           <div className="flex gap-4 flex-wrap">
+                   <Mybuttion
                     name={cartLoading ? "ADDING..." : "ADD TO CART"}
                     onClick={handleAddToCart}
                     disabled={cartLoading}
@@ -227,10 +228,11 @@ const Productdetails = () => {
       }
     });
   }}
-  className="bg-black text-white px-6 sm:ms-4 max-sm:mt-2  py-4 rounded-md  font-semibold "
+  className="bg-black text-white font-outfit sm:font-bold font-medium sm:py-4 py-2 sm:px-10 px-6 rounded-md transition  "
 >
   Buy Now
 </button>
+           </div>
 
 
                   <h6 className="font-outfit text-[#555555] pt-3 border-t mt-3">

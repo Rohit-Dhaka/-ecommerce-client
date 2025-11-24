@@ -5,7 +5,7 @@ const Mybuttion = ({ name, onClick, disabled }) => {
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`bg-black text-white font-outfit font-bold py-4 px-10 rounded-md transition 
+      className={`bg-black text-white font-outfit sm:font-bold font-medium sm:py-4 py-2 sm:px-10 px-6 rounded-md transition 
         ${disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800"}`}
     >
       {name}
