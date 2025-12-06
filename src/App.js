@@ -25,8 +25,8 @@ import Hero from "./components/layout/Hero";
 import Layout from "./Layout";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import Privacy from "./components/layout/Privacy";
-import DeliveryInformationone from "./components/forms/DeliveryInformationone";
-import Singlepayment from "./components/forms/Singlepayment";
+
+
 
 function App() {
   return (
@@ -52,13 +52,10 @@ function App() {
             path="/deliveryInformation"
             element={<DeliveryInformation />}
           />
-          <Route
-            path="/deliveryInformationone"
-            element={<DeliveryInformationone />}
-          />
+          
           <Route path="/carttotal" element={<CartTotal />} />
           <Route path="/payment" element={<Paymet />} />          
-          <Route path="/singlepayment" element={<Singlepayment />} />          
+          
 
         </Route>
       </Routes>

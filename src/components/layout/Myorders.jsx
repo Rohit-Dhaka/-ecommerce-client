@@ -8,6 +8,24 @@ const Myorders = () => {
     getallorder();
   }, []);
 
+  const getStatusColor = (status) => {
+  switch (status?.toLowerCase()) {
+    case "pending":
+      return "bg-yellow-500";
+    case "processing":
+      return "bg-blue-500";
+    case "shipped":
+      return "bg-orange-500";
+    case "delivered":
+      return "bg-green-500";
+    case "cancelled":
+      return "bg-red-500";
+    default:
+      return "bg-gray-400";
+  }
+};
+
+
   if (!Array.isArray(allorders)) {
     return (
       <section className="pt-[89px] pb-[24px]">
@@ -82,12 +100,15 @@ const Myorders = () => {
 
                 {/* Middle Section - Status */}
                 <div className="w-full lg:w-3/12 flex items-start lg:items-center">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[#00A625] rounded-full"></div>
-                    <h3 className="font-outfit text-[18px] sm:text-[20px] text-[#454545]">
-                      {order.status || "Processing"}
-                    </h3>
-                  </div>
+                 <div className="flex items-center gap-2">
+  <div
+    className={`w-3 h-3 rounded-full ${getStatusColor(order.status)}`}
+  ></div>
+  <h3 className="font-outfit text-[18px] sm:text-[20px] text-[#454545] capitalize">
+    {order.status || "Processing"}
+  </h3>
+</div>
+
                 </div>
 
                 {/* Right Section - Track Order Button */}

@@ -1,19 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { UseMyContext } from "../../context/Mycontext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Payment = () => {
-  const { paymentcreateOrder, total, fetchUser, user } = UseMyContext();
-
+  const { paymentcreateOrder, fetchUser, user } = UseMyContext();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  
+  const product = location.state?.product;
+  const selectedSize = location.state?.selectedSize;
+  const quantity = location.state?.quantity || 1;
+
   useEffect(() => {
     fetchUser();
   }, []);
 
-  const fixedTotal = Number(total.toFixed(2)); 
-  const amountInPaise = fixedTotal * 100;      
+  if (!product) {
+    return <p className="text-center mt-20">Product not found.</p>;
+  }
+
+  const fixedTotal = product.price * quantity; // Rupee
+  const amountInPaise = Math.round(fixedTotal * 100); // Convert to paise ✔️
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -26,97 +33,74 @@ const Payment = () => {
   };
 
   const handlePayment = async () => {
-    try {
-      const res = await loadRazorpayScript();
-      if (!res) return;
+    const scriptLoaded = await loadRazorpayScript();
+    if (!scriptLoaded) return;
 
-      
-      const orderData = await paymentcreateOrder(amountInPaise);
-      if (!orderData) return;
+    const orderData = await paymentcreateOrder({
+      total: amountInPaise,
+      productId: product._id,
+      name: product.title,
+      price: product.price,
+      quantity: quantity,
+      image: product.imagesUrl[0],
+    });
 
-      const options = {
-        key: "rzp_test_REzImRICNcMTCj",
-        amount: orderData.order.amount,
-        currency: orderData.order.currency,
-        name: "Your App Name",
-        order_id: orderData.order.id,
-        
-        handler: async (response) => {
-          navigate("/orders"); 
-          try {
-            const token = localStorage.getItem("token");
+    console.log("orderData", orderData);
 
-            const verifyRes = await fetch("/delivery/verifyPayment", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify(response),
-            });
-
-            const data = await verifyRes.json();
-            console.log("Payment verified:", data);
-
-            
-
-          } catch (err) {
-            console.log("Payment verification error:", err);
-          }
-        },
-
-        
-        prefill: {
-          name: user?.name || "Guest User",
-          email: user?.email || "guest@example.com",
-        },
-
-        theme: { color: "black" },
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (error) {
-      console.log("Payment error:", error);
+    if (!orderData || !orderData.razorpayOrder) {
+      return console.error("Failed to create Razorpay order");
     }
+
+    const options = {
+      key: "rzp_test_REzImRICNcMTCj",
+      amount: orderData.razorpayOrder.amount,
+      currency: orderData.razorpayOrder.currency,
+      name: "SHOPORA",
+      description: product.title,
+      image: product.imagesUrl?.[0],
+      order_id: orderData.razorpayOrder.id,
+
+      handler: (response) => {
+        navigate("/orders");
+      },
+
+      prefill: {
+        name: user?.name,
+        email: user?.email,
+      },
+
+      theme: { color: "black" },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
   };
 
   return (
-   <div className="h-[60vh] flex items-center justify-center p-4 bg-gray-50">
-  <div className="w-full max-w-md mx-auto bg-white shadow-xl rounded-2xl p-6 border border-gray-100">
-    
-    <h1 className="text-3xl font-semibold text-gray-900 mb-2 text-center font-outfit">
-      Payment Summary
-    </h1>
+    <div className="h-[60vh] flex items-center justify-center p-4 bg-gray-50">
+      <div className="w-full max-w-md mx-auto bg-white shadow-xl rounded-2xl p-6 border">
+        <h1 className="text-3xl font-semibold text-gray-900 mb-2 text-center">
+          Payment Summary
+        </h1>
 
-    <p className="text-center text-gray-500 mb-6">
-      Complete your purchase securely
-    </p>
+        <div className="bg-gray-100 rounded-lg p-4 mb-4">
+          <p className="font-medium">Product: {product.title}</p>
+          <p className="font-medium">Size: {selectedSize}</p>
+          <p className="font-medium">Quantity: {quantity}</p>
+          <div className="flex justify-between text-gray-700 mt-3">
+            <span className="font-medium">Total Amount</span>
+            <span className="font-bold text-xl">₹{fixedTotal.toFixed(2)}</span>
+          </div>
+        </div>
 
-    <div className="bg-gray-100 rounded-lg p-4 mb-4">
-      <div className="flex justify-between text-gray-700">
-        <span className="font-medium">Total Amount</span>
-        <span className="font-bold text-xl">₹{fixedTotal}</span>
-      </div>
-      <div className="flex justify-between text-gray-500 mt-2 text-sm">
-        <span>Taxes included</span>
-        <span>Razorpay Payments</span>
+        <button
+          onClick={handlePayment}
+          className="w-full bg-black text-white py-3 rounded-lg"
+        >
+          Pay Securely
+        </button>
       </div>
     </div>
-
-    <button
-      onClick={handlePayment}
-      className="w-full bg-black text-white font-semibold py-3 rounded-lg hover:bg-gray-900 transition duration-300"
-    >
-      Pay Securely
-    </button>
-
-    <div className="mt-6 text-center text-gray-500 text-sm">
-      <p>Your payment is secured with Razorpay</p>
-    </div>
-  </div>
-</div>
-
   );
 };
 

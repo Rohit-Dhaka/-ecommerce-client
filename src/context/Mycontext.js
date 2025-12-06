@@ -50,15 +50,15 @@ const signup = async (data) => {
   }
 };
 
-const addPayment = async (data) => {
-  try {
-    const response = await api.post("delivery/addpayment", data);
-    return response.data;
-  } catch (error) {
-    console.log("Add Payment Error:", error);
-    throw error;
-  }
-};
+// const addPayment = async (data) => {
+//   try {
+//     const response = await api.post("delivery/addpayment", data);
+//     return response.data;
+//   } catch (error) {
+//     console.log("Add Payment Error:", error);
+//     throw error;
+//   }
+// };
 
 
 
@@ -105,6 +105,7 @@ const addPayment = async (data) => {
       return response.data;
     } catch (error) {
       console.log("Add to cart error:", error.response?.data || error.message);
+      return error.response?.data
     }
   };
   const getCart = async () => {
@@ -196,20 +197,21 @@ const addPayment = async (data) => {
       setOrders([]); 
     }
   };
-  const paymentcreateOrder = async (total) => {
-    try {
-      
-      const res = await api.post(
-        "/delivery/addpayment",
-        { total: total },
-       
-      );
-      setPaymentData(res.data);
-      return res.data;
-    } catch (error) {
-      console.error("Create order error:", error);
-    }
-  };
+ const paymentcreateOrder = async (data) => {
+  try {
+    
+
+    const res = await api.post("/delivery/addpayment", data);
+
+    setPaymentData(res.data);
+    return res.data;
+
+  } catch (error) {
+     console.error("Create order error:", error);
+  console.log("Backend says:", error.response?.data);
+  }
+};
+
 
   const createaddress = async (data) => {
     
@@ -309,7 +311,7 @@ const addPayment = async (data) => {
         paymentcreateOrder,
         fetchUser,
         user,
-        addPayment
+        // addPayment
       }}
     >
       {children}

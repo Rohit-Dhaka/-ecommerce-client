@@ -5,7 +5,7 @@ import { UseMyContext } from "../../context/Mycontext";
 import { LogIn, LogOut, ShoppingCart, User } from "lucide-react";
 
 const Navbar = () => {
-  const { isLogin, logout, cartCount, cartLength } = UseMyContext();
+  const { isLogin, logout, cartCount, cartLength , cart } = UseMyContext();
   const [show, setShow] = useState(false); 
   const [open, setOpen] = useState(false);
   const downclickRef = useRef(null);
@@ -94,7 +94,7 @@ const Navbar = () => {
                 <div className="absolute flex top-full sm:right-0 right-[-80px]  p-4 bg-gray-200 flex-col rounded w-[200px] gap-2 shadow-lg z-10">
                   {isLogin ? (
                     <>
-                      <div className="flex gap-2">
+                      {/* <div className="flex gap-2">
                         <User size={24} className="text-black cursor-pointer" />
                         <Link
                           to="/profile"
@@ -102,7 +102,7 @@ const Navbar = () => {
                         >
                           My Profile
                         </Link>
-                      </div>
+                      </div> */}
                       <div className="flex gap-2">
                         <ShoppingCart
                           size={24}
@@ -150,7 +150,8 @@ const Navbar = () => {
               <div className="relative">
                 <Cart />
                 <div className="absolute bottom-[-6px] right-[-8px] font-outfit text-[13px] leading-[100%] text-white bg-black w-[18px] h-[18px] rounded-full flex items-center justify-center">
-                  {cartCount}
+                  {/* {cartCount} */}
+                  {cart.length}
                 </div>
               </div>
             </Link>

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { UseMyContext } from "../../context/Mycontext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Title from "../common/Title";
+
 
 const DeliveryInformation = () => {
   const { createaddress } = UseMyContext();
+  const location = useLocation();
 
   
   const [formData, setFormData] = useState({
@@ -50,7 +52,16 @@ const DeliveryInformation = () => {
         country: "",
         streetAddress: "",
       });
-      navigate("/payment");
+      navigate("/payment", {
+  state: {
+    product: location.state.product,
+    selectedSize: location.state.selectedSize,
+    quantity: location.state.quantity,    
+    id: location.state.id,
+  }
+});
+
+
     } catch (error) {
       console.error(error);
       setMessage("Failed to save address");
