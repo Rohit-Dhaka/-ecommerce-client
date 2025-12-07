@@ -57,12 +57,12 @@ const Cart = () => {
       <MessageBar message={message} showBar={bar} />
 
       <div className="container">
-        {/* Page Title */}
+        
         <div className="pt-[80px] pb-4">
           <Title text1="YOUR" text2="CART" />
         </div>
 
-        {/* ---------------- CART ITEMS ---------------- */}
+        
         <div className="pt-6 pb-6 border-t border-[#D1D1D1]">
           {!Array.isArray(cart) || cart.length === 0 ? (
             <p className="text-center text-gray-600 py-10">
@@ -74,9 +74,9 @@ const Cart = () => {
                 key={item._id}
                 className="flex flex-wrap lg:flex-nowrap mx-[-12px] border-b pb-6 mb-6"
               >
-                {/* LEFT: Product + Size + Qty */}
+                
                 <div className="lg:w-6/12 px-3 w-full flex sm:gap-6 gap-1 max-sm:flex-col">
-                  {/* Product Image */}
+                  
                   <div className="h-[131px] w-[131px] min-w-[110px] border rounded-md overflow-hidden flex items-center justify-center">
                     <img
                       src={item.productId?.imagesUrl?.[0]}
@@ -86,28 +86,33 @@ const Cart = () => {
                   </div>
 
                   <div>
-                    {/* Product Title */}
+                    
                     <h5 className="font-medium text-[20px] text-[#494949] font-outfit">
                       {item.productId?.title}
                     </h5>
 
-                    {/* Price + Size + Qty */}
+                    
                     <div className="py-4 flex flex-wrap gap-4 items-center">
-                      {/* Price */}
+                      
                       <h6 className="text-[22px] text-[#494949] font-light">
-                        ${item.productId?.price}
+                        ₹{(item.productId?.price * item.quantity).toFixed(2)}
                       </h6>
 
-                      {/* Size */}
+                      
                       <span className="text-[18px] font-medium text-[#494949] bg-[#FBFBFB] border border-[#DFDFDF] py-2 px-4 rounded-md">
                         {item.size}
                       </span>
 
-                      {/* Quantity Buttons */}
+                      
                       <div className="flex items-center gap-3">
                         <button
+                          disabled={item.quantity === 1}
+                          className={`px-3 py-1 rounded-md text-lg ${
+                            item.quantity === 1
+                              ? "bg-gray-300 cursor-not-allowed"
+                              : "bg-gray-200"
+                          }`}
                           onClick={() => decrementQty(item.productId._id)}
-                          className="px-3 py-1 bg-gray-200 rounded-md text-lg"
                         >
                           -
                         </button>
@@ -127,7 +132,7 @@ const Cart = () => {
                   </div>
                 </div>
 
-                {/* Middle: Status */}
+                
                 <div className="lg:w-3/12 sm:w-6/12   flex items-center px-3">
                   <div className="flex gap-2 items-center">
                     <span className="w-3 h-3 bg-[#00A625] rounded-full"></span>
@@ -137,7 +142,7 @@ const Cart = () => {
                   </div>
                 </div>
 
-                {/* Right: Remove Button */}
+                
                 <div className="lg:w-3/12 sm:w-6/12 w-full px-3  flex items-center justify-between  sm:pt-0 pt-3">
                   <button
                     onClick={() =>
@@ -164,16 +169,16 @@ const Cart = () => {
           )}
         </div>
 
-        {/* ---------------- TOTALS SECTION ---------------- */}
+        
         <div className="flex lg:justify-end pb-[80px]">
           <div className="lg:w-[40%] w-full">
-            {/* Heading */}
+            
             <div className="flex items-center gap-3 pt-[40px] pb-3">
               <h3 className="font-medium text-[26px]">CART TOTALS</h3>
               <span className="h-[2px] w-[50px] bg-black"></span>
             </div>
 
-            {/* Subtotal */}
+            
             <div className="border-b pb-3 flex justify-between">
               <h6 className="text-[16px] text-[#555555]">Subtotal</h6>
               <h6 className="text-[16px] text-[#454545] font-medium">
@@ -181,7 +186,7 @@ const Cart = () => {
               </h6>
             </div>
 
-            {/* Shipping */}
+            
             <div className="border-b pb-3 flex justify-between">
               <h6 className="text-[16px] text-[#555555]">Shipping</h6>
               <h6 className="text-[16px] text-[#454545] font-medium">
@@ -189,7 +194,7 @@ const Cart = () => {
               </h6>
             </div>
 
-            {/* Total */}
+            
             <div className="border-b pb-3 flex justify-between">
               <h6 className="text-[16px] text-[#454545] font-bold">Total</h6>
               <h6 className="text-[16px] text-[#454545] font-medium">

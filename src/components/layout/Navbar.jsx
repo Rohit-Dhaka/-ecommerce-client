@@ -82,7 +82,7 @@ const Navbar = () => {
               <Search />
             </Link> */}
 
-            {/* Profile Dropdown */}
+            
             <div
               className="relative group cursor-pointer "
               ref={downclickRef}
@@ -145,12 +145,12 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* Cart */}
+            
             <Link to="/cart">
               <div className="relative">
                 <Cart />
                 <div className="absolute bottom-[-6px] right-[-8px] font-outfit text-[13px] leading-[100%] text-white bg-black w-[18px] h-[18px] rounded-full flex items-center justify-center">
-                  {/* {cartCount} */}
+                  
                   {cart.length}
                 </div>
               </div>

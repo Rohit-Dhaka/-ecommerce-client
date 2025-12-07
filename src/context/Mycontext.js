@@ -235,49 +235,51 @@ const signup = async (data) => {
     }
   }
  const incrementQty = async (productId) => {
-    try {
-      const response = await api.put(`/cart/cartupdate/${productId}`, {
-        action: "inc",
-      });
+  try {
+    const response = await api.put(`/cart/cartupdate/${productId}`, {
+      action: "inc",
+    });
 
+    setCart((prev) =>
+      prev.map((item) =>
+        item.productId._id === productId
+          ? { ...item, quantity: response.data.quantity }
+          : item
+      )
+    );
+
+    getCartTotal();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const decrementQty = async (productId) => {
+  try {
+    const response = await api.put(`/cart/cartupdate/${productId}`, {
+      action: "dec",
+    });
+
+    if (response.data.message === "Product removed from cart") {
+      setCart((prev) =>
+        prev.filter((item) => item.productId._id !== productId)
+      );
+    } else {
       setCart((prev) =>
         prev.map((item) =>
-          item.productId === productId
+          item.productId._id === productId
             ? { ...item, quantity: response.data.quantity }
             : item
         )
       );
-      getCartTotal()
-    } catch (error) {
-      console.log(error);
     }
-  };
 
-  
-  const decrementQty = async (productId) => {
-    try {
-      const response = await api.put(`/cart/cartupdate/${productId}`, {
-        action: "dec",
-      });
+    getCartTotal();
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-      if (response.data.message === "Product removed from cart") {
-        
-        setCart((prev) => prev.filter((item) => item.productId !== productId));
-      } else {
-        
-        setCart((prev) =>
-          prev.map((item) =>
-            item.productId === productId
-              ? { ...item, quantity: response.data.quantity }
-              : item
-          )
-        );
-      }
-      getCartTotal();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <MyContext.Provider

@@ -40,13 +40,13 @@ const Myorders = () => {
   return (
     <section>
       <div className="container px-3">
-        {/* Header */}
+        
         <div className="flex items-center gap-3 pt-[40px] md:pt-[80px] pb-3">
           <h3 className="font-medium text-[24px] md:text-[30px]">MY ORDERS</h3>
           <span className="h-[2px] w-[40px] md:w-[50px] bg-black inline-block"></span>
         </div>
 
-        {/* Orders List */}
+        
         <div className="pt-[22px] pb-[24px] border-t border-solid border-[#D1D1D1]">
           {allorders.length === 0 ? (
             <p className="text-[18px] text-gray-600">No orders found</p>
@@ -56,14 +56,14 @@ const Myorders = () => {
                 key={order._id}
                 className="flex flex-col lg:flex-row gap-6 border-b pb-6 mb-6"
               >
-                {/* Left Section - Product List */}
+                
                 <div className="w-full lg:w-6/12">
                   {order.items?.map((item) => (
                     <div
                       key={item._id}
                       className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-6"
                     >
-                      {/* Product Image */}
+                      
                       <div className="h-[150px] w-[150px] sm:h-[120px] sm:w-[120px] border rounded-md overflow-hidden flex items-center justify-center">
                         <img
                           src={item.image}
@@ -72,7 +72,7 @@ const Myorders = () => {
                         />
                       </div>
 
-                      {/* Product Info */}
+                      
                       <div className="flex flex-col gap-1">
                         <h5 className="font-outfit text-[#494949] font-medium text-[20px] sm:text-[22px]">
                           {item.name}
@@ -98,7 +98,7 @@ const Myorders = () => {
                   ))}
                 </div>
 
-                {/* Middle Section - Status */}
+                
                 <div className="w-full lg:w-3/12 flex items-start lg:items-center">
                  <div className="flex items-center gap-2">
   <div
@@ -111,7 +111,7 @@ const Myorders = () => {
 
                 </div>
 
-                {/* Right Section - Track Order Button */}
+                
                 <div className="w-full lg:w-3/12 flex lg:items-center lg:justify-end">
                   <button className="font-outfit text-[18px] sm:text-[20px] border border-[#BABABA] rounded-md py-2 px-6 hover:bg-gray-100 transition">
                     Track Order

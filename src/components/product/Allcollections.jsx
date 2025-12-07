@@ -102,7 +102,7 @@ const applyFilter = () => {
     
     <div className="container">
        <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
-      {/* Filter options  */}
+      
       <div className="min-w-60">
         <p
           onClick={() => setShowFilter(!showFilter)}
@@ -115,7 +115,7 @@ const applyFilter = () => {
             alt=""
           />
         </p>
-        {/* Category filter  */}
+        
         <div
           className={`border border-gray-500 pl-5 py-3 mt-6 ${
             showFilter ? "" : "hidden"
@@ -160,7 +160,7 @@ const applyFilter = () => {
           </div>
         </div>
 
-        {/* Subcategory filter  */}
+        
         <div
           className={`border border-gray-500 pl-5 py-3 my-5 ${
             showFilter ? "" : "hidden"
@@ -205,11 +205,11 @@ const applyFilter = () => {
         </div>
       </div>
 
-      {/* Right side  */}
+      
       <div className="flex-1">
         <div className="flex  sm:flex-row flex-col justify-between text-base sm:text-2xl mb-4">
           <Title text1={"ALL"} text2={"COLLECTION"} />
-          {/* product sort  */}
+          
           <select
             className="border-2 border-gray-300 px-2 text-sm "
             onChange={(e) => setSortType(e.target.value)}
@@ -220,7 +220,7 @@ const applyFilter = () => {
           </select>
         </div>
 
-        {/* Map product  */}
+        
       <div className="flex flex-row flex-wrap mx-[-12px] sm:pb-[120px] pb-[80px]">
   {filterProduct.map((item, index) => (
     <Link to={`/productdetails/${item._id}`}

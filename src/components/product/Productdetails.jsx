@@ -7,7 +7,7 @@ import Loader from "../common/Loader";
 import { LightStart, Start } from "../../common/icon";
 
 const Productdetails = () => {
-  const { getOneproduct, addToCart  } = UseMyContext();
+  const { getOneproduct, addToCart } = UseMyContext();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,7 +23,8 @@ const Productdetails = () => {
   const [zoom, setZoom] = useState({ x: 0, y: 0, active: false });
 
   const handleMouseMove = (e) => {
-    const { left, width, top, height } = e.currentTarget.getBoundingClientRect();
+    const { left, width, top, height } =
+      e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
     setZoom({ x, y, active: true });
@@ -51,13 +52,15 @@ const Productdetails = () => {
       })
       .catch(() => setError("Failed to fetch product"))
       .finally(() => setLoading(false));
-  }, [id ]);
+  }, [id]);
 
   const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      showMessage("Please login first to add product", () => navigate("/login"));
+      showMessage("Please login first to add product", () =>
+        navigate("/login")
+      );
       return;
     }
 
@@ -73,12 +76,11 @@ const Productdetails = () => {
         size: selectedSize,
         quantity: 1,
       });
-      
+
       const successMessage = res?.message || "Product added to cart";
       showMessage(successMessage);
-      
-      setTimeout(() => navigate("/cart"), 2000);
 
+      setTimeout(() => navigate("/cart"), 2000);
     } catch (err) {
       console.error("Add to cart error:", err);
 
@@ -103,7 +105,6 @@ const Productdetails = () => {
       if (callback) callback();
     }, 2000);
   };
-  
 
   return (
     <section>
@@ -113,7 +114,7 @@ const Productdetails = () => {
       <div className="container">
         <div className="py-[51px]">
           <div className="flex flex-wrap mx-[-12px] items-center">
-            {/* IMAGES */}
+            
             <div className="sm:w-6/12 w-full px-3">
               <div className="flex sm:flex-row flex-col items-center gap-2">
                 {product?.imagesUrl?.length > 1 && (
@@ -125,9 +126,7 @@ const Productdetails = () => {
                         alt={`thumb-${idx}`}
                         onClick={() => setMainImage(img)}
                         className={`w-24 h-24 object-cover rounded-md cursor-pointer border ${
-                          mainImage === img
-                            ? "border-black"
-                            : "border-gray-300"
+                          mainImage === img ? "border-black" : "border-gray-300"
                         }`}
                       />
                     ))}
@@ -151,9 +150,8 @@ const Productdetails = () => {
               </div>
             </div>
 
-            {/* DETAILS */}
+            
             <div className="sm:w-6/12 w-full px-3 sm:pt-0 pt-8">
-
               {loading ? (
                 <p>Loading...</p>
               ) : error ? (
@@ -165,19 +163,19 @@ const Productdetails = () => {
                   </h6>
                   <div className=" flex gap-2 items-center pb-[20px]">
                     <div className="flex gap-[5px]">
-                      <Start/>
-                      <Start/>
-                      <Start/>
-                      <Start/>
-                      <LightStart/>
+                      <Start />
+                      <Start />
+                      <Start />
+                      <Start />
+                      <LightStart />
                     </div>
                     <p className=" font-outfit text-[#3D3D3D]">(122)</p>
                   </div>
 
                   <p className="font-outfit text-[32px] text-[#2A2A2A] pb-[20px]">
                     ₹{product.price}
-                  </p>                 
-                   <div
+                  </p>
+                  <div
                     className="font-outfit w-[80%]"
                     dangerouslySetInnerHTML={{ __html: product.description }}
                   ></div>
@@ -209,7 +207,7 @@ const Productdetails = () => {
                     ))}
                   </div>
 
-                  {/* Buttons */}
+                  
                   <div className="flex gap-4 flex-wrap">
                     <Mybuttion
                       name={cartLoading ? "ADDING..." : "ADD TO CART"}
@@ -221,6 +219,11 @@ const Productdetails = () => {
                       onClick={() => {
                         if (!selectedSize) {
                           showMessage("Please select a size before buying");
+                          return;
+                        }
+                        const token = localStorage.getItem("token");
+                        if (!token) {
+                          showMessage("Please login first");
                           return;
                         }
                         navigate("/deliveryInformation", {
@@ -239,31 +242,45 @@ const Productdetails = () => {
                   </div>
 
                   <h6 className="font-outfit text-[#555555] pt-3 border-t mt-3 max-w-[300px]">
-                    100% Original product.
-
-Cash on delivery is available on this product.
-
-Easy return and exchange policy within 7 days.
+                    100% Original product. Cash on delivery is available on this
+                    product. Easy return and exchange policy within 7 days.
                   </h6>
                 </>
               ) : null}
-
             </div>
           </div>
         </div>
         <div className=" sm:pb-60 pb-40">
           <div className="flex items-center">
             <div className="py-6 px-8  border border-solid border-[#55555]">
-              <h5 className="font-outfit  font-bold text-[#393939]">Description</h5>
+              <h5 className="font-outfit  font-bold text-[#393939]">
+                Description
+              </h5>
             </div>
             <div className="py-6 px-8   border border-solid border-[#55555] bg-[#FBFBFB]">
-              <h5 className="font-outfit  font-bold text-[#898989]">Reviews (122)</h5>
+              <h5 className="font-outfit  font-bold text-[#898989]">
+                Reviews (122)
+              </h5>
             </div>
           </div>
 
           <div className="sm:py-[60px] sm:px-12 py-[40px] px-8 border border-solid border-[#55555]">
-          <p className=" font-outfit text-[#555555] leading-[28px]">  An e-commerce website is an online platform that facilitates the buying and selling of products or services over the internet. It serves as a virtual marketplace where businesses and individuals can showcase their products, interact with customers, and conduct transactions without the need for a physical presence. E-commerce websites have gained immense popularity due to their convenience, accessibility, and the global reach they offer.</p>
-            <p className=" font-outfit text-[#555555] leading-[28px]">E-commerce websites typically display products or services along with detailed descriptions, images, prices, and any available variations (e.g., sizes, colors). Each product usually has its own dedicated page with relevant information.</p>
+            <p className=" font-outfit text-[#555555] leading-[28px]">
+              {" "}
+              An e-commerce website is an online platform that facilitates the
+              buying and selling of products or services over the internet. It
+              serves as a virtual marketplace where businesses and individuals
+              can showcase their products, interact with customers, and conduct
+              transactions without the need for a physical presence. E-commerce
+              websites have gained immense popularity due to their convenience,
+              accessibility, and the global reach they offer.
+            </p>
+            <p className=" font-outfit text-[#555555] leading-[28px]">
+              E-commerce websites typically display products or services along
+              with detailed descriptions, images, prices, and any available
+              variations (e.g., sizes, colors). Each product usually has its own
+              dedicated page with relevant information.
+            </p>
           </div>
         </div>
       </div>

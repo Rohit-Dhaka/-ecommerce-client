@@ -19,7 +19,7 @@ const LatestCollections = () => {
 
   return (
     <section className="relative min-h-[300px]">
-      {/* Loader Section */}
+      
       {loading && <Loader />}
 
       <div className="container">
@@ -32,7 +32,7 @@ const LatestCollections = () => {
           </p>
         </div>
 
-        {/* Product Section */}
+        
         <div className="flex flex-row flex-wrap mx-[-12px] pt-[47px] sm:pb-[120px] pb-[60px]">
           {products.slice(0, 12).map((pro, i) => (
             <Link
